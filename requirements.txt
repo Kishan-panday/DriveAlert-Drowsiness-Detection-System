@@ -1,5 +1,5 @@
 flask
-numpy
+numpy==1.26.4
 opencv-python-headless
 tflite-runtime==2.14.0
 gunicorn
