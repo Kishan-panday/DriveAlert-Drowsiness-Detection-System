@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Driver Drowsiness Detection</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Inter',sans-serif;
+}
+
+body{
+background:#f2f6fb;
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+padding:20px;
+}
+
+.card{
+
+width:100%;
+max-width:480px;
+
+background:white;
+padding:30px;
+
+border-radius:16px;
+
+box-shadow:0 15px 35px rgba(0,0,0,0.08);
+
+text-align:center;
+}
+
+/* header */
+
+h2{
+font-weight:600;
+margin-bottom:8px;
+color:#1f2937;
+}
+
+.subtitle{
+font-size:14px;
+color:#6b7280;
+margin-bottom:25px;
+}
+
+/* upload */
+
+.upload{
+margin-bottom:20px;
+}
+
+input[type="file"]{
+display:none;
+}
+
+.file-label{
+
+display:block;
+
+padding:20px;
+border:2px dashed #cbd5e1;
+
+border-radius:10px;
+
+cursor:pointer;
+
+background:#f8fafc;
+
+transition:0.2s;
+
+}
+
+.file-label:hover{
+background:#eef2f7;
+border-color:#3b82f6;
+}
+
+/* preview */
+
+.preview-box{
+
+margin-top:15px;
+
+display:none;
+
+}
+
+.preview-box img{
+
+width:100%;
+border-radius:10px;
+
+border:1px solid #e5e7eb;
+
+}
+
+/* button */
+
+button{
+
+margin-top:20px;
+
+width:100%;
+padding:12px;
+
+background:#2563eb;
+color:white;
+
+border:none;
+
+border-radius:8px;
+
+font-size:15px;
+font-weight:500;
+
+cursor:pointer;
+
+transition:0.2s;
+
+}
+
+button:hover{
+background:#1d4ed8;
+}
+
+/* result */
+
+.result{
+
+margin-top:20px;
+padding:12px;
+
+background:#eef2ff;
+border-radius:8px;
+
+font-weight:500;
+
+color:#1e40af;
+
+}
+
+.footer{
+
+margin-top:20px;
+font-size:12px;
+color:#94a3b8;
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+<h2>Driver Drowsiness Detection</h2>
+
+<div class="subtitle">
+Upload a driver image to check alertness
+</div>
+
+<form method="POST" enctype="multipart/form-data">
+
+<div class="upload">
+
+<input type="file" name="image" id="fileInput" accept="image/*" required>
+
+<label for="fileInput" class="file-label">
+Click to upload driver image
+</label>
+
+<div class="preview-box" id="previewBox">
+<img id="previewImage">
+</div>
+
+</div>
+
+<button type="submit">
+Predict
+</button>
+
+</form>
+
+{% if prediction %}
+
+<div class="result">
+Prediction: {{ prediction }}
+</div>
+
+{% endif %}
+
+<div class="footer">
+AI Vision System
+</div>
+
+</div>
+
+<script>
+
+const fileInput = document.getElementById("fileInput");
+const previewBox = document.getElementById("previewBox");
+const previewImage = document.getElementById("previewImage");
+
+fileInput.addEventListener("change", function(){
+
+const file = this.files[0];
+
+if(file){
+
+previewBox.style.display="block";
+
+previewImage.src = URL.createObjectURL(file);
+
+}
+
+});
+
+</script>
+
+</body>
+</html>

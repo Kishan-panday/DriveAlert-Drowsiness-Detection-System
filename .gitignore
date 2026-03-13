@@ -1,0 +1,11 @@
+# Ignore training dataset folder
+train/
+
+# Ignore Python cache
+__pycache__/
+
+# Ignore Jupyter checkpoints
+.ipynb_checkpoints/
+
+# Ignore system files
+.DS_Store
