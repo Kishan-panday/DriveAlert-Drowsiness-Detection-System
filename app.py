@@ -1,11 +1,11 @@
 from flask import Flask, render_template, request
 import cv2
 import numpy as np
-from tensorflow.keras.models import load_model
+from keras.models import load_model
 
 app = Flask(__name__)
 
-model = load_model("drowsiness_model.h5")
+model = load_model("drowsiness_model.h5", compile=False)
 
 classes = ['Closed','Open','no_yawn','yawn']
 
