@@ -7,7 +7,8 @@ import tflite_runtime.interpreter as tflite
 app = Flask(__name__)
 
 # Load TFLite model
-interpreter = tflite.Interpreter(model_path="drowsiness_model.tflite")
+MODEL_PATH = os.path.join(os.path.dirname(__file__), "drowsiness_model.tflite")
+interpreter = tflite.Interpreter(model_path=MODEL_PATH)
 interpreter.allocate_tensors()
 
 input_details = interpreter.get_input_details()
