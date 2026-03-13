@@ -7,8 +7,7 @@ import tensorflow as tf
 app = Flask(__name__)
 
 # Load model once when server starts
-model = tf.keras.models.load_model("drowsiness_model.h5", compile=False)
-
+model = tf.keras.models.load_model("model")
 classes = ['Closed','Open','no_yawn','yawn']
 
 
