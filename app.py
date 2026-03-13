@@ -1,11 +1,13 @@
 from flask import Flask, render_template, request
 import cv2
 import numpy as np
-from tensorflow.keras.models import load_model
+import os
+import tensorflow as tf
 
 app = Flask(__name__)
 
-model = load_model("drowsiness_model.h5", compile=False )
+# Load model once when server starts
+model = tf.keras.models.load_model("drowsiness_model.h5", compile=False)
 
 classes = ['Closed','Open','no_yawn','yawn']
 
@@ -32,6 +34,7 @@ def index():
         prediction = classes[np.argmax(pred)]
 
     return render_template('index.html', prediction=prediction)
+
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
