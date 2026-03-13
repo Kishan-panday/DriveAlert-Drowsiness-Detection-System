@@ -5,7 +5,7 @@ from tensorflow.keras.models import load_model
 
 app = Flask(__name__)
 
-model = load_model("drowsiness_model.h5", compile=False , safe_mode=False)
+model = load_model("drowsiness_model.h5", compile=False )
 
 classes = ['Closed','Open','no_yawn','yawn']
 
