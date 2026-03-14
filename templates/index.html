@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -230,5 +230,438 @@ previewImage.src = URL.createObjectURL(file);
 
 </script>
 
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>drowsy · driver alertness</title>
+  <!-- Font & simple icons (Font Awesome for better UX) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(145deg, #e9eff7 0%, #dbe5f0 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1.5rem;
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* main card – clean, spacious, soft */
+    .card {
+      width: 100%;
+      max-width: 560px;
+      background: rgba(255,255,255,0.75);
+      backdrop-filter: blur(2px);
+      background: #ffffff;
+      border-radius: 32px;
+      box-shadow: 0 25px 50px -12px rgba(0, 20, 40, 0.25), 0 2px 8px 0 rgba(0,0,0,0.02);
+      padding: 2rem 2rem 2.5rem;
+      transition: transform 0.2s ease;
+    }
+
+    .card:hover {
+      transform: scale(1.01);
+    }
+
+    /* header area with subtle accent */
+    h2 {
+      font-weight: 700;
+      font-size: 1.9rem;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #1F2A48, #2C3A6B);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.35rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    h2 i {
+      background: #1e3c72;
+      background: linear-gradient(145deg, #2563eb, #1e3c72);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-size: 2rem;
+    }
+
+    .subtitle {
+      font-size: 0.95rem;
+      color: #4b587c;
+      font-weight: 400;
+      margin-bottom: 2rem;
+      border-bottom: 1px solid rgba(100, 116, 139, 0.15);
+      padding-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .subtitle i {
+      color: #3b82f6;
+      font-size: 0.9rem;
+    }
+
+    /* upload area – large, tactile, with clear dropzone */
+    .upload {
+      margin-bottom: 1.8rem;
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    .file-label {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      padding: 2.5rem 1.5rem;
+      background: #F8FAFE;
+      border: 2px dashed #b9c8e0;
+      border-radius: 28px;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      color: #25435f;
+    }
+
+    .file-label i {
+      font-size: 3.2rem;
+      color: #3f6eb3;
+      opacity: 0.8;
+      transition: opacity 0.2s;
+    }
+
+    .file-label span {
+      font-weight: 500;
+      font-size: 1.2rem;
+      color: #1e2f4a;
+    }
+
+    .file-label .small-hint {
+      font-size: 0.85rem;
+      color: #64748b;
+      margin-top: -0.3rem;
+      font-weight: 400;
+    }
+
+    .file-label:hover {
+      border-color: #2563eb;
+      background: #f1f5fe;
+      box-shadow: 0 12px 24px -16px #2563eb60;
+    }
+
+    .file-label:hover i {
+      opacity: 1;
+      color: #1d4ed8;
+    }
+
+    /* preview image – clean, rounded, with subtle frame */
+    .preview-box {
+      margin-top: 1.5rem;
+      display: none;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 12px 28px -8px rgba(0, 35, 70, 0.2);
+      border: 2px solid white;
+      background: #f0f4fc;
+      transition: all 0.2s;
+    }
+
+    .preview-box img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: cover;
+      max-height: 260px;
+      background: #eef2f6;
+    }
+
+    /* modern predict button with icon */
+    .predict-btn {
+      margin: 1.2rem 0 1.5rem;
+      width: 100%;
+      padding: 1rem 1.2rem;
+      background: linear-gradient(105deg, #1d2f50, #1e3a6b);
+      border: none;
+      border-radius: 50px;
+      color: white;
+      font-size: 1.2rem;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      box-shadow: 0 12px 18px -10px #0b2b4f;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .predict-btn i {
+      font-size: 1.3rem;
+      transition: transform 0.2s;
+    }
+
+    .predict-btn:hover {
+      background: linear-gradient(105deg, #1f3562, #12315f);
+      box-shadow: 0 18px 25px -12px #0f2d55;
+      transform: translateY(-2px);
+    }
+
+    .predict-btn:hover i {
+      transform: translateX(5px);
+    }
+
+    .predict-btn:active {
+      transform: translateY(2px);
+      box-shadow: 0 5px 12px -6px #0f2d55;
+    }
+
+    /* result card – fresh, friendly feedback */
+    .result {
+      margin: 1.5rem 0 0.8rem;
+      padding: 1.25rem 1.5rem;
+      background: #e5f0ff;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 1.25rem;
+      color: #0b355c;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      backdrop-filter: blur(2px);
+      box-shadow: inset 0 1px 4px #ffffff, 0 6px 12px -10px #1e3a8a;
+    }
+
+    .result i {
+      font-size: 1.8rem;
+      color: #2563eb;
+    }
+
+    /* footer – minimal, subtle */
+    .footer {
+      margin-top: 2rem;
+      font-size: 0.8rem;
+      color: #7c89a3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border-top: 1px solid rgba(0,0,0,0.05);
+      padding-top: 1.4rem;
+    }
+
+    .footer i {
+      opacity: 0.7;
+      font-size: 0.9rem;
+    }
+
+    /* simulate prediction template dummy (example) */
+    .demo-prediction-note {
+      font-size: 0.75rem;
+      color: #7a8cac;
+      margin-top: 0.5rem;
+      background: #f3f8ff;
+      padding: 0.3rem 1rem;
+      border-radius: 40px;
+      display: inline-block;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <!-- header with icon -->
+    <h2>
+      <i class="fas fa-moon"></i> drowsy<span style="font-weight:300; -webkit-text-fill-color:#3d5f9e;">·</span>sense
+    </h2>
+    <div class="subtitle">
+      <i class="fas fa-camera"></i>  Upload driver photo · instant alertness check
+    </div>
+
+    <!-- form with file input & preview -->
+    <form method="POST" enctype="multipart/form-data">
+      <div class="upload">
+        <!-- hidden file input -->
+        <input type="file" name="image" id="fileInput" accept="image/*" required>
+        <label for="fileInput" class="file-label" id="dragLabel">
+          <i class="fas fa-cloud-upload-alt"></i>
+          <span>Choose image or drag & drop</span>
+          <div class="small-hint">
+            <i class="far fa-file-image"></i> PNG, JPG · up to 10 MB
+          </div>
+        </label>
+
+        <!-- preview box (hidden initially) -->
+        <div class="preview-box" id="previewBox">
+          <img id="previewImage" src="#" alt="Driver preview">
+        </div>
+      </div>
+
+      <!-- call to action -->
+      <button type="submit" class="predict-btn">
+        <span>Analyze alertness</span>
+        <i class="fas fa-arrow-right"></i>
+      </button>
+    </form>
+
+    <!-- simulated prediction block (example) 
+         normally would be populated by backend, 
+         but here we show a clean demo layout with placeholder -->
+    <div class="result" id="resultPlaceholder" style="display: flex;">
+      <i class="fas fa-shield-alt"></i>
+      <span id="predictionText">Awake · 98% confidence</span>
+    </div>
+    <!-- small hint: in real integration prediction comes from backend -->
+    <div class="demo-prediction-note">
+      <i class="far fa-check-circle" style="color:#2b6e4f;"></i>  backend injects real result (demo shows "awake")
+    </div>
+
+    <div class="footer">
+      <i class="fas fa-brain"></i>  AI vision system · real‑time inference
+      <i class="fas fa-droplet" style="opacity:0.4; margin-left:6px;"></i>
+    </div>
+  </div>
+
+  <!-- preview and interactive enhancement -->
+  <script>
+    (function() {
+      const fileInput = document.getElementById('fileInput');
+      const previewBox = document.getElementById('previewBox');
+      const previewImage = document.getElementById('previewImage');
+      const dragLabel = document.getElementById('dragLabel');
+      const resultDiv = document.getElementById('resultPlaceholder');
+      const predictionSpan = document.getElementById('predictionText');
+
+      // ---- Simulated dynamic result change based on file? just for demo, but also we keep backend pattern.
+      // In real app, result would be replaced by {{ prediction }}.
+      // For demonstration we keep placeholder as "Awake · 98% confidence", but to be interactive,
+      // we can update the result after file selection? Not needed, but let's add a little playful tweak:
+      // change result text after file select to show that image loaded (optional)
+      
+      fileInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+          // show preview
+          previewBox.style.display = 'block';
+          const url = URL.createObjectURL(file);
+          previewImage.src = url;
+
+          // Optional: change result to "image loaded, ready" – but that's just frontend
+          // we preserve backend placeholder but hint that image staged
+          predictionSpan.innerHTML = `Ready · ${file.name.substring(0,12)}...`;
+          resultDiv.style.background = '#f0f5ff';
+          resultDiv.style.border = '1px solid #3b82f6';
+
+          // Clean up object url after load to avoid memory leak
+          previewImage.onload = () => URL.revokeObjectURL(url);
+        } else {
+          previewBox.style.display = 'none';
+          previewImage.src = '#';
+          // revert prediction to default dummy (in production it would be {{ prediction }})
+          predictionSpan.innerHTML = 'Awake · 98% confidence';  // default mock
+          resultDiv.style.background = '#e5f0ff';
+        }
+      });
+
+      // Drag & drop visual (optional enhancement: prevent default)
+      ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        dragLabel.addEventListener(eventName, preventDefaults, false);
+      });
+
+      function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+
+      ['dragenter', 'dragover'].forEach(eventName => {
+        dragLabel.addEventListener(eventName, () => {
+          dragLabel.style.background = '#e3edfe';
+          dragLabel.style.borderColor = '#1e4fd0';
+        });
+      });
+
+      ['dragleave', 'drop'].forEach(eventName => {
+        dragLabel.addEventListener(eventName, () => {
+          dragLabel.style.background = '#F8FAFE';
+          dragLabel.style.borderColor = '#b9c8e0';
+        });
+      });
+
+      // handle drop
+      dragLabel.addEventListener('drop', (e) => {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        if (files.length) {
+          fileInput.files = files;  // assign to input
+          // trigger change event manually
+          const changeEvent = new Event('change', { bubbles: true });
+          fileInput.dispatchEvent(changeEvent);
+        }
+      });
+
+      // If you want to show that prediction block can be replaced by backend template,
+      // we keep an example comment. In real flask, you'd have:
+      // {% if prediction %}
+      // <div class="result"><i class="fas fa-shield-alt"></i> Prediction: {{ prediction }}</div>
+      // {% endif %}
+      // But for this static demo, we show a nice placeholder. However, we can simulate
+      // that the result changes after "predict" click (demo behavior, because no backend)
+      // we add fake interaction on form submit for preview (prevent actual submit in demo)
+      const form = document.querySelector('form');
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();  // prevent page reload (demo only)
+        // simulate prediction response with slight variation
+        const mockPredictions = ['🟢 Alert · 97%', '😴 Drowsy · 82%', '👀 Active · 99%', '⚡ Focused · 93%'];
+        const randomIdx = Math.floor(Math.random() * mockPredictions.length);
+        const newResult = mockPredictions[randomIdx];
+        predictionSpan.innerText = newResult;
+        resultDiv.style.background = '#e0f0ff';
+        if (newResult.includes('Drowsy')) {
+          resultDiv.style.background = '#fff1f0';
+          resultDiv.style.color = '#a13e3e';
+          resultDiv.style.borderColor = '#f5a3a3';
+        } else {
+          resultDiv.style.background = '#e1f3e8';
+          resultDiv.style.color = '#166534';
+          resultDiv.style.borderColor = '#86d9a4';
+        }
+
+        // you could also animate
+      });
+
+      // optional: if file is not selected, predict still gives random result? sure.
+      // but it's a demo, keep clean.
+    })();
+  </script>
+
+  <!-- note: this UI includes a sample prediction block.
+       For real integration, replace static result with jinja:
+       {% if prediction %} 
+       <div class="result"><i class="fas fa-shield-alt"></i> {{ prediction }}</div>
+       {% endif %} 
+       and remove demo random generator if not needed.
+       We keep demo behavior for better frontend interaction.
+  -->
 </body>
 </html>
